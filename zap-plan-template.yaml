@@ -1,0 +1,59 @@
+env:
+  contexts:
+    - name: DummyJSON
+      urls:
+        - ${TARGET_URL}
+      includePaths:
+        - ${TARGET_URL}.*
+  parameters:
+    failOnError: false
+    progressToStdout: true
+
+jobs:
+  # Seed endpoints from Postman collection
+  - type: requestor
+    requests:
+      - url: ${TARGET_URL}auth/login
+        method: POST
+        headers:
+          - "Content-Type: application/json"
+        data: '{"username":"emilys","password":"emilyspass"}'
+
+      - url: ${TARGET_URL}auth/me
+        method: GET
+
+      - url: ${TARGET_URL}products
+        method: GET
+
+      - url: ${TARGET_URL}carts/1
+        method: GET
+
+  - type: spider
+    parameters:
+      context: DummyJSON
+      user: ""
+      url: ${TARGET_URL}
+      maxDuration: 5
+
+  - type: ajaxSpider
+    parameters:
+      context: DummyJSON
+      url: ${TARGET_URL}
+      maxDuration: 8
+
+  - type: activeScan
+    parameters:
+      context: DummyJSON
+      policy: Default Policy
+
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: /zap/wrk/reports
+      reportFile: zap_full_report.html
+
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: /zap/wrk/reports
+      reportFile: zap_full_report.json
