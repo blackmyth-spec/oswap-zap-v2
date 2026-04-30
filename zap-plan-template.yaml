@@ -28,19 +28,6 @@ jobs:
       - url: ${TARGET_URL}carts/1
         method: GET
 
-  - type: spider
-    parameters:
-      context: DummyJSON
-      user: ""
-      url: ${TARGET_URL}
-      maxDuration: 5
-
-  - type: ajaxSpider
-    parameters:
-      context: DummyJSON
-      url: ${TARGET_URL}
-      maxDuration: 8
-
   - type: activeScan
     parameters:
       context: DummyJSON

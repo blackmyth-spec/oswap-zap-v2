@@ -70,14 +70,7 @@ jobs:
       - url: "${TARGET_URL%/}/carts/1"
         method: GET
 
-  # ---- Spider ----
-  - type: spider
-    parameters:
-      context: DummyJSON
-      url: "${TARGET_URL%/}"
-      maxDuration: 5
-
-  # ---- Active Scan ----
+  # ---- Active Scan (only Postman endpoints) ----
   - type: activeScan
     parameters:
       context: DummyJSON
